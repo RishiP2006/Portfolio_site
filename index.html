@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Portfolio — Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <meta name="description" content="Personal portfolio" />
+  <style>
+    :root{
+      --bg: #0f1724;
+      --card: rgba(255,255,255,0.04);
+      --muted: #98a0b3;
+      --accent-a: #7c3aed;
+      --accent-b: #06b6d4;
+      --glass: rgba(255,255,255,0.06);
+      --glass-2: rgba(255,255,255,0.02);
+      --radius: 14px;
+      --fw-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--fw-sans);
+      background: linear-gradient(180deg,var(--bg) 0%, #071024 100%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    .container{max-width:980px;margin:36px auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{
+      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));
+      display:inline-grid;place-items:center;font-weight:800;color:white;font-size:20px;box-shadow:0 6px 24px rgba(4,6,15,0.6);
+    }
+    h1{font-size:28px;margin:0}
+    .subtitle{color:var(--muted);font-size:13px}
+    nav{display:flex;gap:14px;align-items:center}
+    a.btn{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-size:14px}
+    a.btn:hover{color:#fff;background:var(--glass)}
+
+    main{display:grid;grid-template-columns:1fr 360px;gap:24px}
+    .hero{background:linear-gradient(180deg,var(--card),transparent);padding:22px;border-radius:var(--radius);backdrop-filter: blur(6px);box-shadow:0 6px 30px rgba(2,6,23,0.6)}
+    .hero .intro{display:flex;gap:18px;align-items:flex-start}
+    .avatar{width:112px;height:112px;border-radius:16px;background-image:linear-gradient(135deg,var(--accent-b),var(--accent-a));display:block}
+    .eyebrow{color:var(--muted);font-size:13px;margin-bottom:8px}
+    p.lead{margin:10px 0;color:#d9e6ff}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .tag{background:var(--glass-2);padding:6px 10px;border-radius:999px;color:var(--muted);font-size:13px}
+
+    .side-card{background:linear-gradient(180deg,var(--glass),transparent);padding:18px;border-radius:12px}
+    .meta-row{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
+
+    section.projects{margin-top:22px}
+    .projects-grid{display:grid;gap:12px}
+    .project{padding:14px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);display:flex;align-items:center;justify-content:space-between}
+    .project .meta{display:flex;flex-direction:column}
+    .project h3{margin:0;font-size:15px}
+    .project p{margin:4px 0 0;color:var(--muted);font-size:13px}
+
+    footer{margin-top:36px;color:var(--muted);font-size:13px;text-align:center}
+
+    @media (max-width:920px){
+      main{grid-template-columns:1fr}
+      .avatar{width:88px;height:88px}
+      .container{padding:18px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">YN</div>
+        <div>
+          <h1>Your Name</h1>
+          <div class="subtitle">Software developer • Designer • AI tinkerer</div>
+        </div>
+      </div>
+      <nav>
+        <a class="btn" href="#projects">Projects</a>
+        <a class="btn" href="#about">About</a>
+        <a class="btn" href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <div>
+        <div class="hero">
+          <div class="intro">
+            <div class="avatar"></div>
+            <div style="flex:1">
+              <div class="eyebrow">Hi, I am</div>
+              <h2 style="margin:0">Your Name — building delightful apps</h2>
+              <p class="lead">I design and develop full‑stack apps. I like clean interfaces, fast code and tiny animations. Currently exploring ML + product design.</p>
+              <div class="tags">
+                <div class="tag">React</div>
+                <div class="tag">Flutter</div>
+                <div class="tag">Python</div>
+                <div class="tag">AI</div>
+                <div class="tag">Open Source</div>
+              </div>
+            </div>
+          </div>
+
+          <section id="projects" class="projects">
+            <h3 style="margin:12px 0 8px">Selected projects</h3>
+            <div class="projects-grid">
+              <div class="project">
+                <div class="meta">
+                  <h3>Project One</h3>
+                  <p>Small description about the project and tech used.</p>
+                </div>
+                <div style="color:var(--muted);font-size:13px">GitHub</div>
+              </div>
+
+              <div class="project">
+                <div class="meta">
+                  <h3>Project Two</h3>
+                  <p>One‑liner about the idea.</p>
+                </div>
+                <div style="color:var(--muted);font-size:13px">Live</div>
+              </div>
+
+              <div class="project">
+                <div class="meta">
+                  <h3>Project Three</h3>
+                  <p>Note about scale and tech.</p>
+                </div>
+                <div style="color:var(--muted);font-size:13px">Demo</div>
+              </div>
+
+            </div>
+          </section>
+        </div>
+
+        <section id="about" style="margin-top:18px">
+          <div class="side-card">
+            <h3 style="margin:0 0 8px">About me</h3>
+            <p style="margin:0;color:var(--muted)">I am a developer who focuses on building productized ML tools and polished front-end experiences. I enjoy learning new stacks and mentoring others.</p>
+          </div>
+        </section>
+      </div>
+
+      <aside>
+        <div class="side-card">
+          <div class="meta-row"><div>Location</div><div>City, Country</div></div>
+          <div style="height:12px"></div>
+          <div class="meta-row"><div>Email</div><div>you@domain.com</div></div>
+          <div style="height:12px"></div>
+          <div class="meta-row"><div>Twitter</div><div>@you</div></div>
+          <div style="height:18px"></div>
+          <div style="font-size:13px;color:var(--muted)">Quick contact</div>
+          <div style="margin-top:10px;display:flex;gap:8px">
+            <a class="btn" href="#contact">Message</a>
+            <a class="btn" href="#">Resume</a>
+          </div>
+        </div>
+
+        <div style="height:16px"></div>
+        <div class="side-card">
+          <div style="font-size:13px;color:var(--muted)">Skills</div>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+            <div class="tag">UI · UX</div>
+            <div class="tag">Frontend</div>
+            <div class="tag">ML</div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer id="contact">
+      <div style="margin-bottom:8px">Want something built? Reach out — you@domain.com</div>
+      <div style="color:var(--muted)">© Your Name • Built with simple HTML & CSS • Deploy on Vercel</div>
+    </footer>
+  </div>
+
+  <script>
+    // tiny enhancement: smooth scroll for internal links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const id = a.getAttribute('href');
+        if(id === '#') return;
+        document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'});
+      });
+    });
+  </script>
+</body>
+</html>
