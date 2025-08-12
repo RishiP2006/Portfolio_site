@@ -33,7 +33,6 @@
       line-height:1.45;
     }
 
-    /* layout from your original file */
     .container{max-width:980px;margin:36px auto;padding:28px}
     header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
     .brand{display:flex;gap:14px;align-items:center}
@@ -131,6 +130,8 @@
       object-fit: cover;
       transform-origin: center center;
       transition: transform 450ms ease, filter 350ms ease;
+      display:block;
+      background:#071024;
     }
     .model-card:hover .preview iframe,
     .model-card:hover .preview img {
@@ -240,7 +241,7 @@
                    data-desc="Fine-tuned ResNet50 for Drosophila life-stage classification. Trained with aggressive augmentation and focal loss."
                    data-acc="92"
                    data-github="https://github.com/RishiP2006/Drosophila_stages_models"
-                   data-images='["https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200","https://images.unsplash.com/photo-1524594154906-6f8f2f0136d5?w=1200"]'
+                   data-images='["https://upload.wikimedia.org/wikipedia/commons/3/3c/Drosophila_melanogaster_01.jpg","https://upload.wikimedia.org/wikipedia/commons/1/12/Drosophila_melanogaster_-_male_%282%29.jpg"]'
                    >
                 <div class="card-actions">
                   <a class="ghost-btn" href="https://github.com/RishiP2006/Drosophila_stages_models" target="_blank">Open GitHub</a>
@@ -253,8 +254,7 @@
                   </div>
                 </div>
                 <div class="preview">
-                  <!-- For projects that can't be embedded, show a static image preview -->
-                  <img alt="resnet preview" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200">
+                  <img alt="resnet preview" src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Drosophila_melanogaster_01.jpg" onerror="handleImgError(this)">
                 </div>
                 <div class="acc-row">
                   <div class="acc-label"><span>Accuracy</span><span class="acc-value">92%</span></div>
@@ -265,10 +265,10 @@
               <!-- Model 2 -->
               <div class="model-card" tabindex="0"
                    data-name="InceptionV3 Fine-tune"
-                   data-desc="InceptionV3 trained in two-stage strategy — frozen base then fine-tuned. Uses heavy augmentation."
+                   data-desc="InceptionV3 trained in two-stage strategy — frozen base then fine-tuned last layers."
                    data-acc="90.5"
                    data-github="https://github.com/RishiP2006/Drosophila_stages_models"
-                   data-images='["https://images.unsplash.com/photo-1524594154906-6f8f2f0136d5?w=1200","https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200"]'>
+                   data-images='["https://upload.wikimedia.org/wikipedia/commons/7/7e/Drosophila_larva_%28Drosophila_melanogaster%29.jpg","https://upload.wikimedia.org/wikipedia/commons/8/86/Drosophila_pupa.jpg"]'>
                 <div class="card-actions">
                   <a class="ghost-btn" href="https://github.com/RishiP2006/Drosophila_stages_models" target="_blank">Open GitHub</a>
                 </div>
@@ -280,7 +280,7 @@
                   </div>
                 </div>
                 <div class="preview">
-                  <img alt="inception preview" src="https://images.unsplash.com/photo-1524594154906-6f8f2f0136d5?w=1200">
+                  <img alt="inception preview" src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Drosophila_larva_%28Drosophila_melanogaster%29.jpg" onerror="handleImgError(this)">
                 </div>
                 <div class="acc-row">
                   <div class="acc-label"><span>Accuracy</span><span class="acc-value">90.5%</span></div>
@@ -294,7 +294,7 @@
                    data-desc="A lightweight CNN architecture for fast inference on edge devices. Optimized for speed/size."
                    data-acc="88"
                    data-github="https://github.com/RishiP2006/Drosophila_stages_models"
-                   data-images='["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200","https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200"]'>
+                   data-images='["https://upload.wikimedia.org/wikipedia/commons/5/55/Light_microscope.jpg","https://upload.wikimedia.org/wikipedia/commons/4/41/Compound_microscope_eyepiece.jpg"]'>
                 <div class="card-actions">
                   <a class="ghost-btn" href="https://github.com/RishiP2006/Drosophila_stages_models" target="_blank">Open GitHub</a>
                 </div>
@@ -306,7 +306,7 @@
                   </div>
                 </div>
                 <div class="preview">
-                  <img alt="light cnn preview" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200">
+                  <img alt="light cnn preview" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Light_microscope.jpg" onerror="handleImgError(this)">
                 </div>
                 <div class="acc-row">
                   <div class="acc-label"><span>Accuracy</span><span class="acc-value">88%</span></div>
@@ -395,7 +395,7 @@
         <div>
           <div class="carousel" id="carousel">
             <!-- image will be injected -->
-            <img id="carouselImg" src="" alt="sample">
+            <img id="carouselImg" src="" alt="sample" onerror="handleImgError(this)">
           </div>
           <div style="margin-top:12px">
             <h3 id="modalTitle">Model Title</h3>
@@ -425,10 +425,22 @@
   </div>
 
   <script>
+    // fallback SVG data URI (shows "Preview unavailable")
+    const fallbackSVG = "data:image/svg+xml;utf8," + encodeURIComponent(
+      "<svg xmlns='http://www.w3.org/2000/svg' width='800' height='480'><rect width='100%' height='100%' fill='%23071024'/>" +
+      "<text x='50%' y='50%' fill='%2398a0b3' font-family='Inter, Arial, sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle'>Preview unavailable</text></svg>"
+    );
+
+    function handleImgError(img){
+      if (img.dataset.fallbackApplied) return;
+      img.dataset.fallbackApplied = '1';
+      img.src = fallbackSVG;
+      img.alt = 'Preview unavailable';
+    }
+
     // animate accuracy bars on load/hover
     function animateAccFill(el) {
       const target = parseFloat(el.dataset.target) || 0;
-      // animate up to target
       requestAnimationFrame(() => {
         el.style.width = Math.min(target, 100) + '%';
       });
@@ -479,10 +491,11 @@
       document.getElementById('openGithub').href = gh;
       document.getElementById('openDemo').href = gh; // change if you have a demo URL
 
-      // carousel setup
-      currentCarousel.imgs = imgs.length ? imgs : ['https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200'];
+      // carousel setup (use available images; fallback used automatically on error)
+      currentCarousel.imgs = (imgs && imgs.length) ? imgs : [fallbackSVG];
       currentCarousel.idx = 0;
       carouselImg.src = currentCarousel.imgs[0];
+      carouselImg.dataset.fallbackApplied = '';
       modalBackdrop.style.display = 'flex';
 
       // cycle images
@@ -492,6 +505,7 @@
         carouselImg.style.opacity = 0;
         setTimeout(()=> {
           carouselImg.src = currentCarousel.imgs[currentCarousel.idx];
+          carouselImg.dataset.fallbackApplied = '';
           carouselImg.style.opacity = 1;
         }, 250);
       }, 3000);
@@ -521,9 +535,9 @@
       });
     });
 
-    // make iframes lazy
+    // Ensure iframe lazy loading respected
     document.querySelectorAll('iframe[loading="lazy"]').forEach(frm => {
-      // already good — browsers lazy-load iframe
+      // browsers handle this; nothing to do
     });
   </script>
 </body>
