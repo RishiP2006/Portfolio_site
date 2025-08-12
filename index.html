@@ -19,6 +19,7 @@
       --glass-2: rgba(255,255,255,0.02);
       --radius: 14px;
       --fw-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      --glow: 0 20px 40px rgba(92, 60, 255, 0.12);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -32,6 +33,7 @@
       line-height:1.45;
     }
 
+    /* layout from your original file */
     .container{max-width:980px;margin:36px auto;padding:28px}
     header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
     .brand{display:flex;gap:14px;align-items:center}
@@ -60,7 +62,6 @@
     section.projects{margin-top:22px}
     .projects-grid{display:grid;gap:12px}
 
-    /* Regular project style */
     .project{
       padding:14px;
       border-radius:12px;
@@ -73,53 +74,122 @@
     .project h3{margin:0;font-size:15px}
     .project p{margin:4px 0 0;color:var(--muted);font-size:13px}
 
-    /* Special project card with preview */
-    .project-card {
-      position: relative;
-      overflow: hidden;
+    /* ---------- Models showcase ---------- */
+    .models-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+      align-items: stretch;
+    }
+
+    .model-card {
+      --tilt-x: 0deg;
+      --tilt-y: 0deg;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
       border-radius: 12px;
-      background: var(--glass);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      padding: 0;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 250ms cubic-bezier(.2,.9,.3,1), box-shadow 250ms;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.5);
+      cursor: pointer;
     }
-    .project-card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+
+    .model-card .top {
+      padding: 14px;
+      display:flex;
+      gap:12px;
+      align-items:center;
     }
-    .project-preview {
-      width: 100%;
-      height: 180px;
+    .model-badge {
+      width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent-b),var(--accent-a));display:grid;place-items:center;font-weight:700;color:#fff;
+      box-shadow: var(--glow);
+      transform: translateZ(40px);
+    }
+    .model-meta h4{margin:0;font-size:15px}
+    .model-meta p{margin:6px 0 0;color:var(--muted);font-size:13px}
+
+    /* animated accuracy bar */
+    .acc-row { padding: 0 14px 14px 14px; }
+    .acc-label { display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:8px; }
+    .acc-bar { background: rgba(255,255,255,0.03); height:10px; border-radius:999px; overflow:hidden; }
+    .acc-fill { height:100%; width:0%; background: linear-gradient(90deg, var(--accent-a), var(--accent-b)); border-radius:inherit; transition: width 900ms cubic-bezier(.2,.9,.3,1); }
+
+    /* preview area (iframe or static image) */
+    .preview {
+      position: relative;
+      height: 160px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
       overflow: hidden;
     }
-    .project-preview iframe {
+    .preview iframe, .preview img {
       width: 100%;
       height: 100%;
       border: none;
-      transform: scale(1);
-      transition: transform 0.4s ease;
+      object-fit: cover;
+      transform-origin: center center;
+      transition: transform 450ms ease, filter 350ms ease;
     }
-    .project-card:hover .project-preview iframe {
-      transform: scale(1.1);
+    .model-card:hover .preview iframe,
+    .model-card:hover .preview img {
+      transform: scale(1.06);
+      filter: brightness(1.02) contrast(1.02);
     }
-    .project-info {
-      padding: 15px;
+
+    /* glow badge that appears on hover */
+    .card-actions {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      z-index: 5;
+      display:flex;
+      gap:8px;
     }
-    .project-info h3 {
-      margin: 0;
-      font-size: 16px;
-    }
-    .project-info p {
-      font-size: 13px;
+    .ghost-btn {
+      background: rgba(255,255,255,0.04);
       color: var(--muted);
-      margin: 4px 0 0;
+      padding:6px 10px;border-radius:10px;font-size:13px;text-decoration:none;
+      transition: background 180ms, color 180ms;
+      backdrop-filter: blur(4px);
     }
+    .ghost-btn:hover { background: linear-gradient(90deg,var(--accent-a),var(--accent-b)); color: #fff; box-shadow: 0 8px 24px rgba(124,58,237,0.12); }
+
+    /* modal */
+    .modal-backdrop {
+      position:fixed;inset:0;background:rgba(4,6,12,0.7);display:none;align-items:center;justify-content:center;z-index:60;
+      padding:24px;
+    }
+    .modal {
+      width: min(980px, 96%);
+      max-height: 86vh;
+      overflow:auto;
+      background: linear-gradient(180deg,#071026, #071024);
+      border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 30px 80px rgba(2,6,23,0.7);
+    }
+    .modal .modal-grid { display:grid; grid-template-columns: 1fr 340px; gap:14px; align-items:start; }
+    .modal h3 { margin: 0 0 8px 0; }
+    .modal p { color:var(--muted); margin:0; font-size:14px; }
+    .carousel { border-radius:8px; overflow:hidden; height:320px; background:#081026; display:flex; align-items:center; justify-content:center; }
+    .carousel img { width:100%; height:100%; object-fit:cover; display:block; }
+
+    .modal .side { background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent); padding:12px; border-radius:10px; }
+    .modal .metrics { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+    .metric { background: rgba(255,255,255,0.02); padding:8px 10px; border-radius:8px; color:var(--muted); font-size:13px; }
+
+    .close-x { position:absolute; right:14px; top:10px; color:var(--muted); font-size:18px; cursor:pointer; }
 
     footer{margin-top:36px;color:var(--muted);font-size:13px;text-align:center}
 
+    /* small responsive tweaks */
     @media (max-width:920px){
       main{grid-template-columns:1fr}
       .avatar{width:88px;height:88px}
       .container{padding:18px}
+      .modal .modal-grid { grid-template-columns: 1fr; }
+      .carousel { height:220px; }
     }
   </style>
 </head>
@@ -134,9 +204,9 @@
         </div>
       </div>
       <nav>
+        <a class="btn" href="#models">Models</a>
         <a class="btn" href="#projects">Projects</a>
         <a class="btn" href="#about">About</a>
-        <a class="btn" href="#contact">Contact</a>
         <a class="btn" href="resume.pdf" target="_blank">Resume</a>
       </nav>
     </header>
@@ -159,51 +229,126 @@
             </div>
           </div>
 
-          <section id="projects" class="projects">
-            <h3 style="margin:12px 0 8px">Selected Projects</h3>
-            <div class="projects-grid">
-              <div class="project">
-                <div class="meta">
-                  <h3>ML Image Classifier</h3>
-                  <p>Built a CNN model with TensorFlow to classify images with 95% accuracy.</p>
+          <!-- Models section -->
+          <section id="models" style="margin-top:18px">
+            <h3 style="margin:12px 0 8px">Models & Demos</h3>
+            <div class="models-grid">
+
+              <!-- Model 1 -->
+              <div class="model-card" tabindex="0"
+                   data-name="ResNet50 Classifier"
+                   data-desc="Fine-tuned ResNet50 for Drosophila life-stage classification. Trained with aggressive augmentation and focal loss."
+                   data-acc="92"
+                   data-github="https://github.com/RishiP2006/Drosophila_stages_models"
+                   data-images='["https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200","https://images.unsplash.com/photo-1524594154906-6f8f2f0136d5?w=1200"]'
+                   >
+                <div class="card-actions">
+                  <a class="ghost-btn" href="https://github.com/RishiP2006/Drosophila_stages_models" target="_blank">Open GitHub</a>
                 </div>
-                <a href="#" style="color:var(--muted);font-size:13px">GitHub</a>
-              </div>
-              <div class="project">
-                <div class="meta">
-                  <h3>Portfolio Website</h3>
-                  <p>Designed and coded my personal portfolio from scratch.</p>
+                <div class="top">
+                  <div class="model-badge">R50</div>
+                  <div class="model-meta">
+                    <h4>ResNet50 Classifier</h4>
+                    <p>ResNet50 fine-tuned on labeled Drosophila images</p>
+                  </div>
                 </div>
-                <a href="#" style="color:var(--muted);font-size:13px">Live</a>
-              </div>
-              <div class="project">
-                <div class="meta">
-                  <h3>Data Dashboard</h3>
-                  <p>Interactive dashboard for visualizing and exploring datasets.</p>
+                <div class="preview">
+                  <!-- For projects that can't be embedded, show a static image preview -->
+                  <img alt="resnet preview" src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200">
                 </div>
-                <a href="#" style="color:var(--muted);font-size:13px">Demo</a>
+                <div class="acc-row">
+                  <div class="acc-label"><span>Accuracy</span><span class="acc-value">92%</span></div>
+                  <div class="acc-bar"><div class="acc-fill" style="width:0%" data-target="92"></div></div>
+                </div>
               </div>
 
-              <!-- New Drosophila App Project -->
-              <div class="project-card">
-                <a href="https://drosophila-stages-identification-app.streamlit.app" target="_blank">
-                  <div class="project-preview">
+              <!-- Model 2 -->
+              <div class="model-card" tabindex="0"
+                   data-name="InceptionV3 Fine-tune"
+                   data-desc="InceptionV3 trained in two-stage strategy — frozen base then fine-tuned. Uses heavy augmentation."
+                   data-acc="90.5"
+                   data-github="https://github.com/RishiP2006/Drosophila_stages_models"
+                   data-images='["https://images.unsplash.com/photo-1524594154906-6f8f2f0136d5?w=1200","https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200"]'>
+                <div class="card-actions">
+                  <a class="ghost-btn" href="https://github.com/RishiP2006/Drosophila_stages_models" target="_blank">Open GitHub</a>
+                </div>
+                <div class="top">
+                  <div class="model-badge">IV3</div>
+                  <div class="model-meta">
+                    <h4>InceptionV3 Fine-tune</h4>
+                    <p>Two-stage train: frozen base then fine-tune last layers.</p>
+                  </div>
+                </div>
+                <div class="preview">
+                  <img alt="inception preview" src="https://images.unsplash.com/photo-1524594154906-6f8f2f0136d5?w=1200">
+                </div>
+                <div class="acc-row">
+                  <div class="acc-label"><span>Accuracy</span><span class="acc-value">90.5%</span></div>
+                  <div class="acc-bar"><div class="acc-fill" style="width:0%" data-target="90.5"></div></div>
+                </div>
+              </div>
+
+              <!-- Model 3 (lightweight) -->
+              <div class="model-card" tabindex="0"
+                   data-name="Light CNN (Fast)"
+                   data-desc="A lightweight CNN architecture for fast inference on edge devices. Optimized for speed/size."
+                   data-acc="88"
+                   data-github="https://github.com/RishiP2006/Drosophila_stages_models"
+                   data-images='["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200","https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200"]'>
+                <div class="card-actions">
+                  <a class="ghost-btn" href="https://github.com/RishiP2006/Drosophila_stages_models" target="_blank">Open GitHub</a>
+                </div>
+                <div class="top">
+                  <div class="model-badge">LCN</div>
+                  <div class="model-meta">
+                    <h4>Light CNN (Fast)</h4>
+                    <p>Small model for quick inference, suitable for on-device experiments.</p>
+                  </div>
+                </div>
+                <div class="preview">
+                  <img alt="light cnn preview" src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200">
+                </div>
+                <div class="acc-row">
+                  <div class="acc-label"><span>Accuracy</span><span class="acc-value">88%</span></div>
+                  <div class="acc-bar"><div class="acc-fill" style="width:0%" data-target="88"></div></div>
+                </div>
+              </div>
+
+              <!-- Drosophila Streamlit app (bigger preview card) -->
+              <div class="project-card" style="grid-column: 1 / -1; margin-top:6px;">
+                <a href="https://drosophila-stages-identification-app.streamlit.app" target="_blank" style="display:block;color:inherit;text-decoration:none">
+                  <div class="project-preview" style="height:300px">
                     <iframe src="https://drosophila-stages-identification-app.streamlit.app" loading="lazy"></iframe>
                   </div>
                   <div class="project-info">
-                    <h3>Drosophila Stages Identification App</h3>
-                    <p>AI-powered tool for identifying Drosophila life stages. Built using Streamlit & deep learning.</p>
+                    <h3 style="margin:10px 0 4px">Drosophila Stages Identification App</h3>
+                    <p>Live demo — AI tool to identify Drosophila life stages. Click to open full app.</p>
                   </div>
                 </a>
               </div>
+
             </div>
           </section>
+
         </div>
 
-        <section id="about" style="margin-top:18px">
-          <div class="side-card">
-            <h3 style="margin:0 0 8px">About Me</h3>
-            <p style="margin:0;color:var(--muted)">I am a developer who focuses on building production-ready ML tools and polished front-end experiences. I enjoy exploring new stacks and mentoring others in tech.</p>
+        <section id="projects" style="margin-top:18px">
+          <h3 style="margin:12px 0 8px">Selected Projects</h3>
+          <div class="projects-grid">
+            <div class="project">
+              <div class="meta">
+                <h3>Portfolio Website</h3>
+                <p>Designed and coded my personal portfolio from scratch.</p>
+              </div>
+              <a href="#" style="color:var(--muted);font-size:13px">Live</a>
+            </div>
+            <div class="project">
+              <div class="meta">
+                <h3>Data Dashboard</h3>
+                <p>Interactive dashboard for visualizing and exploring datasets.</p>
+              </div>
+              <a href="#" style="color:var(--muted);font-size:13px">Demo</a>
+            </div>
           </div>
         </section>
       </div>
@@ -212,7 +357,7 @@
         <div class="side-card">
           <div class="meta-row"><div>Location</div><div>India</div></div>
           <div style="height:12px"></div>
-          <div class="meta-row"><div>Email</div><div>you@domain.com</div></div>
+          <div class="meta-row"><div>Email</div><div><a href="mailto:you@domain.com" style="color:var(--muted)">you@domain.com</a></div></div>
           <div style="height:12px"></div>
           <div class="meta-row"><div>LinkedIn</div><div>/in/rishiprasad</div></div>
           <div style="height:18px"></div>
@@ -242,15 +387,143 @@
     </footer>
   </div>
 
+  <!-- Modal (hidden) -->
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal" role="document">
+      <div class="close-x" id="modalClose">&times;</div>
+      <div class="modal-grid">
+        <div>
+          <div class="carousel" id="carousel">
+            <!-- image will be injected -->
+            <img id="carouselImg" src="" alt="sample">
+          </div>
+          <div style="margin-top:12px">
+            <h3 id="modalTitle">Model Title</h3>
+            <p id="modalDesc">Description</p>
+          </div>
+        </div>
+        <div class="side">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="font-weight:600">Model Details</div>
+            <div style="font-size:13px;color:var(--muted)" id="modalAcc">Acc</div>
+          </div>
+
+          <div class="metrics" id="metrics">
+            <div class="metric">F1: —</div>
+            <div class="metric">Precision: —</div>
+            <div class="metric">Recall: —</div>
+            <div class="metric">Params: —</div>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <a id="openGithub" class="ghost-btn" href="#" target="_blank">Open GitHub</a>
+            <a id="openDemo" class="ghost-btn" href="#" target="_blank">Open Demo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Smooth scroll for internal links
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        e.preventDefault();
-        const id = a.getAttribute('href');
-        if(id === '#') return;
-        document.querySelector(id).scrollIntoView({behavior:'smooth',block:'start'});
+    // animate accuracy bars on load/hover
+    function animateAccFill(el) {
+      const target = parseFloat(el.dataset.target) || 0;
+      // animate up to target
+      requestAnimationFrame(() => {
+        el.style.width = Math.min(target, 100) + '%';
       });
+    }
+
+    // init: animate all bars that are visible
+    document.querySelectorAll('.acc-fill').forEach(animateAccFill);
+
+    // Tilt effect: subtle 3D tilt using mouse move
+    document.querySelectorAll('.model-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width;
+        const y = (e.clientY - rect.top) / rect.height;
+        const rx = (y - 0.5) * 8; // tilt x
+        const ry = (x - 0.5) * -10; // tilt y
+        card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(0)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+
+      // keyboard accessibility: open modal on Enter
+      card.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') openModelModal(card);
+      });
+
+      // click opens modal
+      card.addEventListener('click', () => openModelModal(card));
+    });
+
+    // Modal logic
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalClose = document.getElementById('modalClose');
+    const carouselImg = document.getElementById('carouselImg');
+    let currentCarousel = { imgs: [], idx: 0 }, carouselTimer;
+
+    function openModelModal(card) {
+      const name = card.dataset.name || 'Model';
+      const desc = card.dataset.desc || '';
+      const acc = card.dataset.acc || '';
+      const gh = card.dataset.github || 'https://github.com/RishiP2006/Drosophila_stages_models';
+      const imgs = JSON.parse(card.dataset.images || '[]');
+
+      document.getElementById('modalTitle').textContent = name;
+      document.getElementById('modalDesc').textContent = desc;
+      document.getElementById('modalAcc').textContent = (acc ? acc + '%' : '');
+      document.getElementById('openGithub').href = gh;
+      document.getElementById('openDemo').href = gh; // change if you have a demo URL
+
+      // carousel setup
+      currentCarousel.imgs = imgs.length ? imgs : ['https://images.unsplash.com/photo-1518779578993-ec3579fee39f?w=1200'];
+      currentCarousel.idx = 0;
+      carouselImg.src = currentCarousel.imgs[0];
+      modalBackdrop.style.display = 'flex';
+
+      // cycle images
+      clearInterval(carouselTimer);
+      carouselTimer = setInterval(() => {
+        currentCarousel.idx = (currentCarousel.idx + 1) % currentCarousel.imgs.length;
+        carouselImg.style.opacity = 0;
+        setTimeout(()=> {
+          carouselImg.src = currentCarousel.imgs[currentCarousel.idx];
+          carouselImg.style.opacity = 1;
+        }, 250);
+      }, 3000);
+    }
+
+    function closeModal() {
+      modalBackdrop.style.display = 'none';
+      clearInterval(carouselTimer);
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Make accuracy bars animate again when their card is hovered into view (bonus)
+    document.querySelectorAll('.model-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        const fill = card.querySelector('.acc-fill');
+        if (fill) {
+          fill.style.width = '0%';
+          setTimeout(()=> animateAccFill(fill), 60);
+        }
+      });
+    });
+
+    // make iframes lazy
+    document.querySelectorAll('iframe[loading="lazy"]').forEach(frm => {
+      // already good — browsers lazy-load iframe
     });
   </script>
 </body>
